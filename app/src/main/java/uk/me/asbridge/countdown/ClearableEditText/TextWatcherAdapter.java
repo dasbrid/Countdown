@@ -1,4 +1,4 @@
-package uk.me.asbridge.countdown;
+package uk.me.asbridge.countdown.ClearableEditText;
 
 /**
  * Created by AsbridgeD on 20-Dec-17.

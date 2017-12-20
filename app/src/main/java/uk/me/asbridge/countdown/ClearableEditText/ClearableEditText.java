@@ -1,4 +1,4 @@
-package uk.me.asbridge.countdown;
+package uk.me.asbridge.countdown.ClearableEditText;
 
 /**
  * Created by AsbridgeD on 20-Dec-17.
@@ -11,8 +11,6 @@ import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.View;
 import android.support.v7.widget.AppCompatEditText;
-import uk.me.asbridge.countdown.TextWatcherAdapter;
-import uk.me.asbridge.countdown.TextWatcherAdapter.TextWatcherListener;
 
 public class ClearableEditText extends AppCompatEditText implements View.OnTouchListener, View.OnFocusChangeListener, TextWatcherAdapter.TextWatcherListener {
 
