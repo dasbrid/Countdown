@@ -76,19 +76,18 @@ public class ConfigurationActivity extends AppCompatActivity {
 
     public void btnSetDateClicked(View v)
     {
+        int day = targetDate.getDayOfMonth();
+        int month = targetDate.getMonth();
+        int year =  targetDate.getYear();
+        String messageBefore = etMessageBefore.getText().toString();
+        String messageAfter = etMessageAfter.getText().toString();
+
         mAppWidgetId = INVALID_APPWIDGET_ID;
         Intent intent = getIntent();
         Bundle extras = intent.getExtras();
         if (extras != null) {
-            mAppWidgetId = extras.getInt(EXTRA_APPWIDGET_ID,
-                    INVALID_APPWIDGET_ID);
+            mAppWidgetId = extras.getInt(EXTRA_APPWIDGET_ID, INVALID_APPWIDGET_ID);
 
-            // get the date
-            int day = targetDate.getDayOfMonth();
-            int month = targetDate.getMonth();
-            int year =  targetDate.getYear();
-            String messageBefore = etMessageBefore.getText().toString();
-            String messageAfter = etMessageAfter.getText().toString();
             SharedPrefs.setYear(this, year, mAppWidgetId);
             SharedPrefs.setMonth(this, month, mAppWidgetId);
             SharedPrefs.setDay(this, day, mAppWidgetId);
@@ -96,27 +95,12 @@ public class ConfigurationActivity extends AppCompatActivity {
             SharedPrefs.setMessageAfter(this, messageAfter, mAppWidgetId);
 
             //N.B.: we want to launch this intent to our AppWidgetProvider!
-            //Intent firstUpdate = new Intent(context, ConfigurationActivity.class);
+            // Send broadcaset for first update
             Intent firstUpdate = new Intent(AppWidgetManager.ACTION_APPWIDGET_UPDATE, null, this, CountdownAppWidget.class);
             int[] appWidgetIds = new int[] {mAppWidgetId};
-            //firstUpdate.setAction("android.appwidget.action.APPWIDGET_UPDATE");
             firstUpdate.putExtra(AppWidgetManager.EXTRA_APPWIDGET_IDS, appWidgetIds);
             sendBroadcast(firstUpdate);
-
-
-
-
-
-
-            AppWidgetProviderInfo providerInfo = AppWidgetManager.getInstance(
-                    getBaseContext()).getAppWidgetInfo(mAppWidgetId);
-            String appWidgetLabel = providerInfo.label;
-
-            Intent startService = new Intent(); // new Intent(ConfigurationActivity.this, CountdownAppWidget.UpdateWidgetService.class);
-            startService.putExtra(EXTRA_APPWIDGET_ID, mAppWidgetId);
-            //startService.setAction("FROM CONFIGURATION ACTIVITY");
-            setResult(RESULT_OK, startService);
-            //startService(startService);
+            setResult(RESULT_OK, firstUpdate);
 
             finish();
         }
@@ -124,15 +108,6 @@ public class ConfigurationActivity extends AppCompatActivity {
             LogHelper.i("I am invalid", "I am invalid");
             finish();
         }
-
-
-        /*
-        Intent intent = new Intent(this, CountdownAppWidget.class);
-        intent.setAction("android.appwidget.action.APPWIDGET_UPDATE");
-        int ids[] = AppWidgetManager.getInstance(getApplication()).getAppWidgetIds(new ComponentName(getApplication(), CountdownAppWidget.class));
-        intent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_IDS,ids);
-        sendBroadcast(intent);
-*/
 
     }
 }
